@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣彩券號碼產生器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .lottery-tabs {
+            display: flex;
+            background: rgba(102, 126, 234, 0.1);
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .tab.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .lottery-content {
+            padding: 40px;
+        }
+        
+        .lottery-section {
+            display: none;
+            text-align: center;
+        }
+        
+        .lottery-section.active {
+            display: block;
+        }
+        
+        .lottery-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .lottery-info {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .numbers-container {
+            margin: 30px 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .numbers-container.show {
+            opacity: 1;
+        }
+        
+        .regular-numbers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .number {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+            animation: popIn 0.5s ease backwards;
+        }
+        
+        .special-section {
+            margin-top: 20px;
+        }
+        
+        .special-label {
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .special-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .special-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+            animation: popIn 0.5s ease 0.3s backwards;
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .info-box {
+            background: rgba(255, 235, 59, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .history {
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .history h3 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .history-item {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .clear-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .clear-btn:hover {
+            background: #7f8c8d;
+        }
+        
+        @media (max-width: 600px) {
+            .lottery-tabs {
+                flex-direction: column;
+            }
+            
+            .regular-numbers {
+                gap: 8px;
+            }
+            
+            .number {
+                width: 45px;
+                height: 45px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 台灣彩券號碼產生器</h1>
+            <p class="subtitle">使用數學隨機方法產生各種彩券號碼</p>
+        </div>
+        
+        <div class="lottery-tabs">
+            <button class="tab active" onclick="switchLottery('powerball')">威力彩</button>
+            <button class="tab" onclick="switchLottery('superlotto')">大樂透</button>
+            <button class="tab" onclick="switchLottery('daily539')">今彩539</button>
+        </div>
+        
+        <div class="lottery-content">
+            <!-- Power Lottery Section -->
+            <div class="lottery-section active" id="powerball">
+                <h2 class="lottery-title">🎱 威力彩 Power Lottery</h2>
+                <p class="lottery-info">選出6個號碼(1-38) + 1個威力球(1-8)</p>
+                
+                <button class="generate-btn" onclick="generatePowerball()">
+                    🎯 產生威力彩號碼
+                </button>
+                
+                <div class="numbers-container" id="powerballNumbers">
+                    <div class="regular-numbers" id="powerballRegular"></div>
+                    <div class="special-section">
+                        <div class="special-label">威力球 Power Ball</div>
+                        <div class="special-numbers">
+                            <div class="special-number" id="powerballSpecial"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>💡 威力彩資訊：</strong><br>
+                    • 頭獎中獎機率：約 1/300,000,000<br>
+                    • 每週二、五晚上開獎<br>
+                    • 最低獎金：200萬元起跳
+                </div>
+            </div>
+            
+            <!-- Super Lotto Section -->
+            <div class="lottery-section" id="superlotto">
+                <h2 class="lottery-title">🌟 大樂透 Super Lotto</h2>
+                <p class="lottery-info">選出6個號碼(1-49) + 1個特別號(1-49)</p>
+                
+                <button class="generate-btn" onclick="generateSuperlotto()">
+                    🎯 產生大樂透號碼
+                </button>
+                
+                <div class="numbers-container" id="superlottoNumbers">
+                    <div class="regular-numbers" id="superlottoRegular"></div>
+                    <div class="special-section">
+                        <div class="special-label">特別號 Special Number</div>
+                        <div class="special-numbers">
+                            <div class="special-number" id="superlottoSpecial"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>💡 大樂透資訊：</strong><br>
+                    • 頭獎中獎機率：約 1/139,000,000<br>
+                    • 每週二、五晚上開獎<br>
+                    • 最低獎金：100萬元起跳
+                </div>
+            </div>
+            
+            <!-- Daily 539 Section -->
+            <div class="lottery-section" id="daily539">
+                <h2 class="lottery-title">💰 今彩539 Daily Cash</h2>
+                <p class="lottery-info">選出5個號碼(1-39)</p>
+                
+                <button class="generate-btn" onclick="generateDaily539()">
+                    🎯 產生今彩539號碼
+                </button>
+                
+                <div class="numbers-container" id="daily539Numbers">
+                    <div class="regular-numbers" id="daily539Regular"></div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>💡 今彩539資訊：</strong><br>
+                    • 頭獎中獎機率：約 1/575,757<br>
+                    • 每天晚上開獎（除農曆除夕）<br>
+                    • 頭獎獎金：800萬元
+                </div>
+            </div>
+            
+            <div class="info-box" style="margin-top: 40px;">
+                <strong>🔬 數學原理提醒：</strong><br>
+                • 所有號碼組合的中獎機率完全相等<br>
+                • 過去的開獎結果不會影響未來結果<br>
+                • 隨機選號是數學上最合理的策略<br>
+                • 請理性購彩，量力而為，娛樂為主<br>
+                • 彩券是機率遊戲，不是投資工具
+            </div>
+            
+            <div class="history" id="historySection" style="display: none;">
+                <h3>📋 產生記錄</h3>
+                <div id="historyList"></div>
+                <button class="clear-btn" onclick="clearHistory()">清除記錄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLottery = 'powerball';
+        let generatedHistory = [];
+        
+        function switchLottery(lottery) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update sections
+            document.querySelectorAll('.lottery-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(lottery).classList.add('active');
+            
+            currentLottery = lottery;
+        }
+        
+        function generatePowerball() {
+            // Generate 6 unique regular numbers (1-38)
+            const regularNumbers = [];
+            while (regularNumbers.length < 6) {
+                const num = Math.floor(Math.random() * 38) + 1;
+                if (!regularNumbers.includes(num)) {
+                    regularNumbers.push(num);
+                }
+            }
+            regularNumbers.sort((a, b) => a - b);
+            
+            // Generate power ball number (1-8)
+            const powerBall = Math.floor(Math.random() * 8) + 1;
+            
+            displayNumbers('powerball', regularNumbers, [powerBall]);
+            addToHistory('威力彩', regularNumbers, [powerBall], ['威力球']);
+        }
+        
+        function generateSuperlotto() {
+            // Generate 6 unique regular numbers (1-49)
+            const regularNumbers = [];
+            while (regularNumbers.length < 6) {
+                const num = Math.floor(Math.random() * 49) + 1;
+                if (!regularNumbers.includes(num)) {
+                    regularNumbers.push(num);
+                }
+            }
+            regularNumbers.sort((a, b) => a - b);
+            
+            // Generate special number (1-49, can be same as regular numbers)
+            const specialNumber = Math.floor(Math.random() * 49) + 1;
+            
+            displayNumbers('superlotto', regularNumbers, [specialNumber]);
+            addToHistory('大樂透', regularNumbers, [specialNumber], ['特別號']);
+        }
+        
+        function generateDaily539() {
+            // Generate 5 unique numbers (1-39)
+            const regularNumbers = [];
+            while (regularNumbers.length < 5) {
+                const num = Math.floor(Math.random() * 39) + 1;
+                if (!regularNumbers.includes(num)) {
+                    regularNumbers.push(num);
+                }
+            }
+            regularNumbers.sort((a, b) => a - b);
+            
+            displayNumbers('daily539', regularNumbers, []);
+            addToHistory('今彩539', regularNumbers, [], []);
+        }
+        
+        function displayNumbers(lottery, regular, special) {
+            const container = document.getElementById(lottery + 'Numbers');
+            const regularDiv = document.getElementById(lottery + 'Regular');
+            
+            // Clear previous numbers
+            regularDiv.innerHTML = '';
+            
+            // Add regular numbers with staggered animation
+            regular.forEach((num, index) => {
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'number';
+                numberDiv.textContent = num.toString().padStart(2, '0');
+                numberDiv.style.animationDelay = ${index * 0.1}s;
+                regularDiv.appendChild(numberDiv);
+            });
+            
+            // Add special numbers if they exist
+            if (special.length > 0) {
+                const specialDiv = document.getElementById(lottery + 'Special');
+                if (specialDiv) {
+                    specialDiv.textContent = special[0].toString().padStart(2, '0');
+                }
+            }
+            
+            // Show container with fade in
+            container.classList.add('show');
+        }
+        
+        function addToHistory(lotteryName, regular, special, specialLabels) {
+            const timestamp = new Date().toLocaleString('zh-TW');
+            const regularText = regular.map(n => n.toString().padStart(2, '0')).join(' - ');
+            const specialText = special.length > 0 ? 
+                special.map((n, i) => ${specialLabels[i]}: ${n.toString().padStart(2, '0')}).join(' | ') : '';
+            
+            generatedHistory.unshift({
+                timestamp,
+                lottery: lotteryName,
+                regular: regularText,
+                special: specialText
+            });
+            
+            // Keep only last 15 records
+            if (generatedHistory.length > 15) {
+                generatedHistory = generatedHistory.slice(0, 15);
+            }
+            
+            updateHistoryDisplay();
+        }
+        
+        function updateHistoryDisplay() {
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+            
+            if (generatedHistory.length > 0) {
+                historySection.style.display = 'block';
+                historyList.innerHTML = generatedHistory.map(record => 
+                    <div class="history-item">
+                        <strong>${record.lottery} - ${record.timestamp}</strong><br>
+                        一般號碼: ${record.regular}
+                        ${record.special ? <br>${record.special} : ''}
+                    </div>
+                ).join('');
+            }
+        }
+        
+        function clearHistory() {
+            generatedHistory = [];
+            document.getElementById('historySection').style.display = 'none';
+        }
+        
+        // Generate initial numbers for current lottery on page load
+        window.onload = function() {
+            setTimeout(() => {
+                generatePowerball();
+            }, 500);
+        };
+    </script>
+</body>
+</html>  
