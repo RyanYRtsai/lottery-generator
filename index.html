@@ -295,7 +295,10 @@
                     <strong>💡 威力彩資訊：</strong><br>
                     • 頭獎中獎機率：約 1/300,000,000<br>
                     • 每週一、四晚上開獎<br>
-                    • 最低獎金：2億元起跳
+                    • 頭獎最低保證：2億元<br>
+                    • 總獎金支出率：55%<br>
+                    • 頭獎(89%)、貳獎(11%)採浮動獎金<br>
+                    • 參獎~普獎採固定獎金制
                 </div>
             </div>
             
@@ -322,7 +325,8 @@
                     <strong>💡 大樂透資訊：</strong><br>
                     • 頭獎中獎機率：約 1/139,000,000<br>
                     • 每週二、五晚上開獎<br>
-                    • 最低獎金：100萬元起跳
+                    • 頭獎最低保證：100萬元起跳<br>
+                    • 採浮動獎金制度
                 </div>
             </div>
             
@@ -343,7 +347,8 @@
                     <strong>💡 今彩539資訊：</strong><br>
                     • 頭獎中獎機率：約 1/575,757<br>
                     • 每天晚上開獎（除農曆除夕）<br>
-                    • 頭獎獎金：800萬元
+                    • 頭獎固定獎金：800萬元<br>
+                    • 採固定獎金制度
                 </div>
             </div>
             
@@ -354,6 +359,16 @@
                 • 隨機選號是數學上最合理的策略<br>
                 • 請理性購彩，量力而為，娛樂為主<br>
                 • 彩券是機率遊戲，不是投資工具
+            </div>
+            
+            <div class="info-box" style="margin-top: 20px; border-left: 4px solid #ff6b6b;">
+                <strong>🎯 威力彩獎金分配機制：</strong><br>
+                • <strong>總獎金</strong> = 當期銷售額 × 55%<br>
+                • <strong>頭獎 + 貳獎</strong> = (總獎金 - 固定獎金) × 89%:11%<br>
+                • <strong>參獎~普獎</strong>：15萬、2萬、4千、8百、4百、2百、100、100元<br>
+                • <strong>頭獎保證</strong>：最低2億元（含累積獎金）<br>
+                • <strong>熱門號碼保護</strong>：固定獎金超過總獎金75%時按比例分配<br>
+                • <strong>累積機制</strong>：頭獎、貳獎無人中獎時滾入下期
             </div>
             
             <div class="history" id="historySection" style="display: none;">
@@ -443,7 +458,7 @@
                 const numberDiv = document.createElement('div');
                 numberDiv.className = 'number';
                 numberDiv.textContent = num.toString().padStart(2, '0');
-                numberDiv.style.animationDelay = ${index * 0.1}s;
+                numberDiv.style.animationDelay = `${index * 0.1}s`;
                 regularDiv.appendChild(numberDiv);
             });
             
@@ -463,7 +478,7 @@
             const timestamp = new Date().toLocaleString('zh-TW');
             const regularText = regular.map(n => n.toString().padStart(2, '0')).join(' - ');
             const specialText = special.length > 0 ? 
-                special.map((n, i) => ${specialLabels[i]}: ${n.toString().padStart(2, '0')}).join(' | ') : '';
+                special.map((n, i) => `${specialLabels[i]}: ${n.toString().padStart(2, '0')}`).join(' | ') : '';
             
             generatedHistory.unshift({
                 timestamp,
@@ -487,11 +502,11 @@
             if (generatedHistory.length > 0) {
                 historySection.style.display = 'block';
                 historyList.innerHTML = generatedHistory.map(record => 
-                    <div class="history-item">
+                    `<div class="history-item">
                         <strong>${record.lottery} - ${record.timestamp}</strong><br>
                         一般號碼: ${record.regular}
-                        ${record.special ? <br>${record.special} : ''}
-                    </div>
+                        ${record.special ? `<br>${record.special}` : ''}
+                    </div>`
                 ).join('');
             }
         }
@@ -509,4 +524,4 @@
         };
     </script>
 </body>
-</html>   
+</html>
