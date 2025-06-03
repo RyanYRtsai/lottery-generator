@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -241,40 +242,20 @@
             background: #7f8c8d;
         }
         
-        /* 廣告樣式 */
-        .ad-banner {
+        /* 只保留一個廣告 */
+        .single-ad {
             background: linear-gradient(45deg, #ffeaa7, #fab1a0);
             border: 2px dashed #e17055;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
             text-align: center;
-            cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         
-        .ad-banner:hover {
+        .single-ad:hover {
             transform: scale(1.02);
             box-shadow: 0 8px 25px rgba(225, 112, 85, 0.3);
-        }
-        
-        .ad-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         .ad-title {
@@ -288,93 +269,7 @@
             color: #2d3436;
             line-height: 1.4;
         }
-        
-        .ad-sidebar {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 200px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .ad-sidebar:hover {
-            transform: translateY(-50%) scale(1.05);
-        }
-        
-        .ad-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        
-        .ad-popup-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: popupIn 0.5s ease;
-        }
-        
-        @keyframes popupIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        .ad-close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
-        }
-        
-        .ad-close:hover {
-            color: #333;
-        }
-        
-        .ad-footer {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 30px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .ad-footer:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(9, 132, 227, 0.3);
-        }
-        
-        .ad-stats {
-            background: rgba(46, 204, 113, 0.1);
-            border-left: 4px solid #00b894;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-        
+
         @media (max-width: 600px) {
             .lottery-tabs {
                 flex-direction: column;
@@ -389,10 +284,6 @@
                 height: 45px;
                 font-size: 1em;
             }
-            
-            .ad-sidebar {
-                display: none; /* 手機版隱藏側邊廣告 */
-            }
         }
     </style>
 </head>
@@ -402,8 +293,8 @@
             <h1>🎯 台灣彩券號碼產生器</h1>
             <p class="subtitle">使用數學隨機方法產生各種彩券號碼</p>
             
-            <!-- 頂部橫幅廣告 -->
-            <div class="ad-banner" onclick="clickAd('header-banner')">
+            <!-- 單一廣告 -->
+            <div class="single-ad">
                 <div class="ad-title">🎰 推薦線上娛樂城</div>
                 <div class="ad-content">體驗最刺激的線上遊戲，新會員首存送100%！立即註冊領取優惠</div>
             </div>
@@ -425,12 +316,6 @@
                     🎯 產生威力彩號碼
                 </button>
                 
-                <!-- 中間廣告位 -->
-                <div class="ad-banner" onclick="clickAd('powerball-middle')">
-                    <div class="ad-title">💎 幸運水晶專賣店</div>
-                    <div class="ad-content">開運水晶、招財擺件，助您提升財運！全館8折優惠中</div>
-                </div>
-                
                 <div class="numbers-container" id="powerballNumbers">
                     <div class="regular-numbers" id="powerballRegular"></div>
                     <div class="special-section">
@@ -443,11 +328,11 @@
                 
                 <div class="info-box">
                     <strong>💡 威力彩資訊：</strong><br>
-                    • 頭獎中獎機率：約 1/300,000,000<br>
-                    • 每週一、四晚上開獎<br>
-                    • 頭獎最低保證：2億元<br>
-                    • 總獎金支出率：55%<br>
-                    • 頭獎(89%)、貳獎(11%)採浮動獎金<br>
+                    • 頭獎中獎機率：約 1/22,085,448 <br>
+                    • 每週 一、四 晚上 8:30 開獎 <br>
+                    • 頭獎最低保證：NT$ 200,000,000 <br>
+                    • 總獎金支出率：55% <br>
+                    • 頭獎(89%)、貳獎(11%)採浮動獎金 <br>
                     • 參獎~普獎採固定獎金制
                 </div>
             </div>
@@ -461,12 +346,6 @@
                     🎯 產生大樂透號碼
                 </button>
                 
-                <!-- 大樂透廣告 -->
-                <div class="ad-banner" onclick="clickAd('superlotto-middle')">
-                    <div class="ad-title">🔮 命理大師預測</div>
-                    <div class="ad-content">30年經驗命理師，專業生肖運勢分析，助您掌握財運先機</div>
-                </div>
-                
                 <div class="numbers-container" id="superlottoNumbers">
                     <div class="regular-numbers" id="superlottoRegular"></div>
                     <div class="special-section">
@@ -479,10 +358,10 @@
                 
                 <div class="info-box">
                     <strong>💡 大樂透資訊：</strong><br>
-                    • 頭獎中獎機率：約 1/139,000,000<br>
-                    • 每週二、五晚上開獎<br>
-                    • 頭獎最低保證：100萬元起跳<br>
-                    • 採浮動獎金制度
+                    • 頭獎中獎機率：約 1/13,983,816 <br>
+                    • 每週 二、五 晚上 8:30 開獎 <br>
+                    • 頭獎最低保證：NT$ 100,000,000 <br>
+                    • 總獎金支出率：56%
                 </div>
             </div>
             
@@ -495,57 +374,43 @@
                     🎯 產生今彩539號碼
                 </button>
                 
-                <!-- 今彩539廣告 -->
-                <div class="ad-banner" onclick="clickAd('daily539-middle')">
-                    <div class="ad-title">📱 彩券分析APP</div>
-                    <div class="ad-content">AI智能分析歷史數據，提供號碼趨勢參考，下載即送VIP會員</div>
-                </div>
-                
                 <div class="numbers-container" id="daily539Numbers">
                     <div class="regular-numbers" id="daily539Regular"></div>
                 </div>
                 
                 <div class="info-box">
                     <strong>💡 今彩539資訊：</strong><br>
-                    • 頭獎中獎機率：約 1/575,757<br>
-                    • 每天晚上開獎（除農曆除夕）<br>
-                    • 頭獎固定獎金：800萬元<br>
+                    • 頭獎中獎機率：約 1/575,757 <br>
+                    • 每週 一〜六 晚上 8:30 開獎 <br>
+                    • 頭獎固定獎金：NT$ 8,000,000 <br>
                     • 採固定獎金制度
                 </div>
             </div>
             
             <div class="info-box" style="margin-top: 40px;">
                 <strong>🔬 數學原理提醒：</strong><br>
-                • 所有號碼組合的中獎機率完全相等<br>
-                • 過去的開獎結果不會影響未來結果<br>
-                • 隨機選號是數學上最合理的策略<br>
-                • 請理性購彩，量力而為，娛樂為主<br>
+                • 所有號碼組合的中獎機率完全相等 <br>
+                • 過去的開獎結果不會影響未來結果 <br>
+                • 隨機選號是數學上最合理的策略 <br>
+                • 請理性購彩，量力而為，娛樂為主 <br>
                 • 彩券是機率遊戲，不是投資工具
             </div>
             
             <div class="info-box" style="margin-top: 20px; border-left: 4px solid #ff6b6b;">
                 <strong>🎯 威力彩獎金分配機制：</strong><br>
-                • <strong>總獎金</strong> = 當期銷售額 × 55%<br>
-                • <strong>頭獎 + 貳獎</strong> = (總獎金 - 固定獎金) × 89%:11%<br>
-                • <strong>參獎~普獎</strong>：15萬、2萬、4千、8百、4百、2百、100、100元<br>
-                • <strong>頭獎保證</strong>：最低2億元（含累積獎金）<br>
-                • <strong>熱門號碼保護</strong>：固定獎金超過總獎金75%時按比例分配<br>
+                • <strong>總獎金</strong> = 當期銷售額 × 55% <br>
+                • <strong>頭獎 + 貳獎</strong> = (總獎金 - 固定獎金) × 89%:11% <br>
+                • <strong>參獎~普獎</strong> ：150,000、20,000、4,000、800、400、200、100、100 <br>
+                • <strong>頭獎保證</strong>：最低2億元（含累積獎金） <br>
+                • <strong>熱門號碼保護</strong>：固定獎金超過總獎金75%時按比例分配 <br>
                 • <strong>累積機制</strong>：頭獎、貳獎無人中獎時滾入下期
             </div>
             
-            <!-- 統計廣告區 -->
             <div class="ad-stats">
                 <strong>📊 本站統計：</strong><br>
                 今日已產生 <span id="todayCount">1,247</span> 組號碼 | 
                 累計中獎回報 <span id="winCount">89</span> 次 |
                 用戶滿意度 <span id="satisfaction">98.5%</span>
-            </div>
-            
-            <!-- 底部廣告 -->
-            <div class="ad-footer" onclick="clickAd('footer-main')">
-                <div style="font-size: 1.3em; margin-bottom: 10px;">🎯 專業投注建議服務</div>
-                <div>由資深分析師提供個人化投注策略，提高中獎機會！</div>
-                <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">點擊了解更多詳情</div>
             </div>
             
             <div class="history" id="historySection" style="display: none;">
@@ -554,99 +419,16 @@
                 <button class="clear-btn" onclick="clearHistory()">清除記錄</button>
             </div>
         </div>
-        
-        <!-- 側邊廣告 -->
-        <div class="ad-sidebar" onclick="clickAd('sidebar')">
-            <div style="font-weight: bold; color: #e84393; margin-bottom: 10px;">💰 限時優惠</div>
-            <div style="font-size: 0.9em; line-height: 1.4;">
-                開運商品大特價<br>
-                招財貔貅、水晶球<br>
-                全館免運費<br>
-                <span style="color: #d63031;">立即搶購！</span>
-            </div>
-        </div>
-        
-        <!-- 彈窗廣告 -->
-        <div class="ad-popup" id="adPopup">
-            <div class="ad-popup-content">
-                <div class="ad-close" onclick="closePopup()">&times;</div>
-                <h2 style="color: #d63031; margin-bottom: 20px;">🎊 恭喜您！</h2>
-                <p style="margin-bottom: 20px;">您已成功產生幸運號碼！</p>
-                <div style="background: #ffeaa7; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                    <strong>🎁 特別優惠：</strong><br>
-                    註冊專業投注分析服務<br>
-                    前100名用戶享有50%折扣
-                </div>
-                <button style="background: #00b894; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer;" onclick="clickAd('popup-offer')">
-                    立即領取優惠
-                </button>
-            </div>
-        </div>
     </div>
 
     <script>
         let currentLottery = 'powerball';
         let generatedHistory = [];
-        let adClickCount = 0;
-        let dailyEarnings = 0;
-        
-        // 廣告點擊追蹤與收益計算
-        function clickAd(adPosition) {
-            adClickCount++;
-            
-            // 不同廣告位置的收益率
-            const earnings = {
-                'header-banner': 0.8,      // 頂部橫幅 - 高曝光
-                'powerball-middle': 1.2,   // 威力彩中間 - 高互動
-                'superlotto-middle': 1.0,  // 大樂透中間
-                'daily539-middle': 0.9,    // 今彩539中間
-                'sidebar': 0.6,            // 側邊廣告 - 較低點擊
-                'footer-main': 1.5,        // 底部主廣告 - 高轉換
-                'popup-offer': 2.0         // 彈窗廣告 - 最高轉換
-            };
-            
-            dailyEarnings += earnings[adPosition] || 0.5;
-            
-            // 更新收益顯示
-            updateEarningsDisplay();
-            
-            // 模擬廣告點擊行為
-            alert(`廣告點擊成功！位置：${adPosition}\n本次收益：NT${(earnings[adPosition] || 0.5).toFixed(1)}\n今日總收益：NT${dailyEarnings.toFixed(1)}`);
-            
-            // 實際使用時，這裡應該是跳轉到廣告主網站
-            // window.open('廣告主網址', '_blank');
-        }
-        
-        // 更新收益顯示
-        function updateEarningsDisplay() {
-            // 更新統計數據（模擬數據）
-            document.getElementById('todayCount').textContent = (1247 + adClickCount * 3).toLocaleString();
-            document.getElementById('winCount').textContent = (89 + Math.floor(adClickCount / 5));
-            document.getElementById('satisfaction').textContent = (98.5 + Math.random() * 0.4).toFixed(1) + '%';
-        }
-        
-        // 彈窗廣告控制
-        function showPopup() {
-            document.getElementById('adPopup').style.display = 'flex';
-        }
-        
-        function closePopup() {
-            document.getElementById('adPopup').style.display = 'none';
-        }
-        
-        // 每次產生號碼後顯示彈窗廣告（機率性）
-        function maybeShowPopup() {
-            if (Math.random() < 0.3) { // 30% 機率顯示彈窗
-                setTimeout(showPopup, 2000); // 延遲2秒顯示
-            }
-        }
         
         function switchLottery(lottery) {
-            // Update tabs
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Update sections
             document.querySelectorAll('.lottery-section').forEach(section => section.classList.remove('active'));
             document.getElementById(lottery).classList.add('active');
             
@@ -654,7 +436,6 @@
         }
         
         function generatePowerball() {
-            // Generate 6 unique regular numbers (1-38)
             const regularNumbers = [];
             while (regularNumbers.length < 6) {
                 const num = Math.floor(Math.random() * 38) + 1;
@@ -663,17 +444,13 @@
                 }
             }
             regularNumbers.sort((a, b) => a - b);
-            
-            // Generate power ball number (1-8)
             const powerBall = Math.floor(Math.random() * 8) + 1;
             
             displayNumbers('powerball', regularNumbers, [powerBall]);
             addToHistory('威力彩', regularNumbers, [powerBall], ['威力球']);
-            maybeShowPopup(); // 機率性顯示彈窗廣告
         }
         
         function generateSuperlotto() {
-            // Generate 6 unique regular numbers (1-49)
             const regularNumbers = [];
             while (regularNumbers.length < 6) {
                 const num = Math.floor(Math.random() * 49) + 1;
@@ -682,17 +459,13 @@
                 }
             }
             regularNumbers.sort((a, b) => a - b);
-            
-            // Generate special number (1-49, can be same as regular numbers)
             const specialNumber = Math.floor(Math.random() * 49) + 1;
             
             displayNumbers('superlotto', regularNumbers, [specialNumber]);
             addToHistory('大樂透', regularNumbers, [specialNumber], ['特別號']);
-            maybeShowPopup(); // 機率性顯示彈窗廣告
         }
         
         function generateDaily539() {
-            // Generate 5 unique numbers (1-39)
             const regularNumbers = [];
             while (regularNumbers.length < 5) {
                 const num = Math.floor(Math.random() * 39) + 1;
@@ -704,17 +477,13 @@
             
             displayNumbers('daily539', regularNumbers, []);
             addToHistory('今彩539', regularNumbers, [], []);
-            maybeShowPopup(); // 機率性顯示彈窗廣告
         }
         
         function displayNumbers(lottery, regular, special) {
             const container = document.getElementById(lottery + 'Numbers');
             const regularDiv = document.getElementById(lottery + 'Regular');
-            
-            // Clear previous numbers
             regularDiv.innerHTML = '';
             
-            // Add regular numbers with staggered animation
             regular.forEach((num, index) => {
                 const numberDiv = document.createElement('div');
                 numberDiv.className = 'number';
@@ -723,7 +492,6 @@
                 regularDiv.appendChild(numberDiv);
             });
             
-            // Add special numbers if they exist
             if (special.length > 0) {
                 const specialDiv = document.getElementById(lottery + 'Special');
                 if (specialDiv) {
@@ -731,7 +499,6 @@
                 }
             }
             
-            // Show container with fade in
             container.classList.add('show');
         }
         
@@ -748,7 +515,6 @@
                 special: specialText
             });
             
-            // Keep only last 15 records
             if (generatedHistory.length > 15) {
                 generatedHistory = generatedHistory.slice(0, 15);
             }
@@ -777,7 +543,6 @@
             document.getElementById('historySection').style.display = 'none';
         }
         
-        // Generate initial numbers for current lottery on page load
         window.onload = function() {
             setTimeout(() => {
                 generatePowerball();
@@ -786,3 +551,4 @@
     </script>
 </body>
 </html>
+```
