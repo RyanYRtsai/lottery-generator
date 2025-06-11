@@ -309,13 +309,6 @@
       color: #2d3436;
       line-height: 1.4;
     }
-    .adsense-container {
-      margin: 20px 0;
-      text-align: center;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-    }
     @media (max-width: 600px) {
       .lottery-tabs {
         flex-direction: column;
@@ -347,16 +340,6 @@
         </a>
       </div>
     </div>
-
-    <!-- 廣告位置 1 - 頂部橫幅廣告 -->
-    <div class="adsense-container">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-2887538162840031"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
     
     <div class="lottery-tabs">
       <button class="tab active" onclick="switchLottery('powerball')">威力彩</button>
@@ -370,17 +353,6 @@
         <h2 class="lottery-title">🎱 威力彩 Power Lottery</h2>
         <p class="lottery-info">選出6個號碼(1-38) + 1個威力球(1-8)</p>
         <button class="generate-btn" onclick="generatePowerball()">🎯 產生威力彩號碼</button>
-
-        <!-- 廣告位置 2 - 產生按鈕下方 -->
-        <div class="adsense-container">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-2887538162840031"
-               data-ad-slot="9876543210"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-        </div>
-
         <div class="numbers-container" id="powerballNumbers">
           <div class="regular-numbers" id="powerballRegular"></div>
           <div class="special-section">
@@ -414,17 +386,6 @@
         <h2 class="lottery-title">🌟 大樂透 Super Lotto</h2>
         <p class="lottery-info">選出6個號碼(1-49) + 1個特別號(1-49)</p>
         <button class="generate-btn" onclick="generateSuperlotto()">🎯 產生大樂透號碼</button>
-
-        <!-- 廣告位置 3 - 大樂透產生按鈕下方 -->
-        <div class="adsense-container">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-2887538162840031"
-               data-ad-slot="1357924680"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-        </div>
-
         <div class="numbers-container" id="superlottoNumbers">
           <div class="regular-numbers" id="superlottoRegular"></div>
           <div class="special-section">
@@ -456,17 +417,6 @@
         <h2 class="lottery-title">💰 今彩539 Daily Cash</h2>
         <p class="lottery-info">選出5個號碼(1-39)</p>
         <button class="generate-btn" onclick="generateDaily539()">🎯 產生今彩539號碼</button>
-
-        <!-- 廣告位置 4 - 今彩539產生按鈕下方 -->
-        <div class="adsense-container">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-2887538162840031"
-               data-ad-slot="2468013579"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-        </div>
-
         <div class="numbers-container" id="daily539Numbers">
           <div class="regular-numbers" id="daily539Regular"></div>
         </div>
@@ -487,16 +437,6 @@
         </div>
       </div>
       
-      <!-- 廣告位置 5 - 內容中間 -->
-      <div class="adsense-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-2887538162840031"
-             data-ad-slot="3691470258"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-
       <div class="info-box">
         <strong>🔍 使用最佳推理方式，預測下一期號碼：</strong><br>
         • 分析歷史開獎數據中的高頻號碼與趨勢<br>
@@ -521,16 +461,6 @@
         今日已產生 <span id="todayCount">1,247</span> 組號碼 | 
         累計中獎回報 <span id="winCount">89</span> 次 |
         用戶滿意度 <span id="satisfaction">98.5%</span>
-      </div>
-      
-      <!-- 廣告位置 6 - 底部廣告 -->
-      <div class="adsense-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-2887538162840031"
-             data-ad-slot="1472583690"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
       </div>
       
       <div class="history" id="historySection" style="display: none;">
@@ -695,4 +625,153 @@
         const tag = item.isHot ? '熱門' : (item.isCold ? '冷門' : '普通');
         const tagColor = item.isHot ? '#e74c3c' : (item.isCold ? '#95a5a6' : '#3498db');
         
-        content += `<div class="analysis
+        content += `<div class="analysis-item">
+          號碼 <span class="highlight" style="background:${tagColor}">${item.num}</span> - 
+          ${tag} (近20期出現${item.freq}次，最後出現：${item.lastSeen})
+        </div>`;
+        
+        if (item.matches.length > 0) {
+          content += `<div class="analysis-item" style="margin-left: 20px; font-size: 0.85em; color: #7f8c8d;">
+            ├ 最近出現期數: ${item.matches.map(m => `${m.period}期(${m.periodsAgo}期前)`).join(', ')}
+          </div>`;
+        }
+      });
+
+      // 統計分析
+      const hotCount = analysis.generatedAnalysis.filter(item => item.isHot).length;
+      const coldCount = analysis.generatedAnalysis.filter(item => item.isCold).length;
+      const totalAppearances = analysis.generatedAnalysis.reduce((sum, item) => sum + item.freq, 0);
+      
+      content += `<div class="analysis-item"><strong>📈 組合分析：</strong></div>`;
+      content += `<div class="analysis-item">• 熱門號碼: ${hotCount}個 | 冷門號碼: ${coldCount}個</div>`;
+      content += `<div class="analysis-item">• 總出現次數: ${totalAppearances}次 (平均每號碼${(totalAppearances/regular.length).toFixed(1)}次)</div>`;
+      
+      if (hotCount >= 3) {
+        content += `<div class="analysis-item" style="color: #e74c3c;">⚠️ 熱門號碼較多，可能分散獎金</div>`;
+      }
+      if (coldCount >= 3) {
+        content += `<div class="analysis-item" style="color: #27ae60;">✨ 冷門號碼較多，中獎時獎金可能較高</div>`;
+      }
+
+      contentDiv.innerHTML = content;
+
+      // 顯示近期開獎記錄
+      const history = lotteryHistory[lottery];
+      let recentContent = '';
+      history.slice(0, 10).forEach(draw => {
+        const regularNums = draw.regular.map(n => n.toString().padStart(2, '0')).join('-');
+        const specialText = draw.special ? ` + ${draw.special.toString().padStart(2, '0')}` : '';
+        recentContent += `<div class="draw-item">
+          ${draw.period}期 (${draw.date}): ${regularNums}${specialText}
+        </div>`;
+      });
+      recentDrawsDiv.innerHTML = recentContent;
+
+      analysisDiv.style.display = 'block';
+    }
+
+    function displayNumbers(lottery, regular, special) {
+      const container = document.getElementById(lottery + 'Numbers');
+      const regularDiv = document.getElementById(lottery + 'Regular');
+      regularDiv.innerHTML = '';
+      regular.forEach((num, i) => {
+        const div = document.createElement('div');
+        div.className = 'number';
+        div.textContent = num.toString().padStart(2, '0');
+        div.style.animationDelay = `${i * 0.1}s`;
+        regularDiv.appendChild(div);
+      });
+      if (special && special.length > 0) {
+        const specialDiv = document.getElementById(lottery + 'Special');
+        if (specialDiv) specialDiv.textContent = special[0].toString().padStart(2, '0');
+      }
+      container.classList.add('show');
+    }
+
+    function addToHistory(lotteryName, regular, special, labels) {
+      const timestamp = new Date().toLocaleString('zh-TW');
+      const regText = regular.map(n => n.toString().padStart(2, '0')).join(' - ');
+      const specText = special && special.length > 0
+        ? special.map((n, i) => `${labels[i]}: ${n.toString().padStart(2, '0')}`).join(' | ')
+        : '';
+      generatedHistory.unshift({ timestamp, lottery: lotteryName, regular: regText, special: specText });
+      if (generatedHistory.length > 15) generatedHistory = generatedHistory.slice(0, 15);
+      updateHistoryDisplay();
+    }
+
+    function updateHistoryDisplay() {
+      const section = document.getElementById('historySection');
+      const list = document.getElementById('historyList');
+      if (generatedHistory.length > 0) {
+        section.style.display = 'block';
+        list.innerHTML = generatedHistory.map(record =>
+          `<div class="history-item">
+            <strong>${record.lottery} - ${record.timestamp}</strong><br>
+            一般號碼: ${record.regular}
+            ${record.special ? `<br>${record.special}` : ''}
+          </div>`
+        ).join('');
+      }
+    }
+
+    function clearHistory() {
+      generatedHistory = [];
+      document.getElementById('historySection').style.display = 'none';
+    }
+
+    function generatePowerball() {
+      const regular = [];
+      while (regular.length < 6) {
+        const n = Math.floor(Math.random() * 38) + 1;
+        if (!regular.includes(n)) regular.push(n);
+      }
+      regular.sort((a, b) => a - b);
+      const pb = Math.floor(Math.random() * 8) + 1;
+      displayNumbers('powerball', regular, [pb]);
+      addToHistory('威力彩', regular, [pb], ['威力球']);
+
+      const analysis = analyzeNumbers('powerball', regular);
+      displayAnalysis('powerball', analysis, regular);
+      document.getElementById('updateStatus').textContent = '✅ 最新開獎資料已同步';
+    }
+
+    function generateSuperlotto() {
+      const regular = [];
+      while (regular.length < 6) {
+        const n = Math.floor(Math.random() * 49) + 1;
+        if (!regular.includes(n)) regular.push(n);
+      }
+      regular.sort((a, b) => a - b);
+      const special = Math.floor(Math.random() * 49) + 1;
+      displayNumbers('superlotto', regular, [special]);
+      addToHistory('大樂透', regular, [special], ['特別號']);
+
+      const analysis = analyzeNumbers('superlotto', regular);
+      displayAnalysis('superlotto', analysis, regular);
+      document.getElementById('updateStatus').textContent = '✅ 最新開獎資料已同步';
+    }
+
+    function generateDaily539() {
+      const regular = [];
+      while (regular.length < 5) {
+        const n = Math.floor(Math.random() * 39) + 1;
+        if (!regular.includes(n)) regular.push(n);
+      }
+      regular.sort((a, b) => a - b);
+      displayNumbers('daily539', regular, []);
+      addToHistory('今彩539', regular, [], []);
+
+      const analysis = analyzeNumbers('daily539', regular);
+      displayAnalysis('daily539', analysis, regular);
+      document.getElementById('updateStatus').textContent = '✅ 最新開獎資料已同步';
+    }
+
+    window.onload = function() {
+      generateLotteryHistory();
+      setTimeout(() => {
+        generatePowerball();
+      }, 500);
+    };
+  </script>
+</body>
+</html>
